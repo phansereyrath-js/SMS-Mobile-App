@@ -1,0 +1,60 @@
+import 'package:get/get.dart';
+
+import '../../controllers/attendance_controller.dart';
+import '../../controllers/payment_controller.dart';
+
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
+import '../../services/mobile_api.dart';
+import '../../models/student_account.dart';
+import '../../core/theme/app_colors.dart';
+export '../../models/student_account.dart';
+
+part 'parts/workflow_language_scope.dart';
+part 'parts/backend_data_scope.dart';
+part 'parts/school_fees_page.dart';
+part 'parts/homework_page.dart';
+part 'parts/attendance_page.dart';
+part '../../widgets/private/workflows/inner_header.dart';
+part '../../widgets/private/workflows/status_pill.dart';
+part '../../widgets/private/workflows/summary_box.dart';
+part '../../widgets/private/workflows/cell.dart';
+part 'parts/qr_scanner_page.dart';
+part '../../widgets/private/workflows/scanner_frame.dart';
+part '../../widgets/private/workflows/scanner_frame_painter.dart';
+part 'parts/school_news_page.dart';
+part 'parts/announcement_detail_page.dart';
+part 'parts/payment_records_page.dart';
+part 'parts/payment_detail_page.dart';
+part '../../widgets/private/workflows/payment_process_timeline.dart';
+part '../../widgets/private/workflows/payment_process_step.dart';
+part 'parts/bank_invoice_payment_page.dart';
+part 'parts/system_invoice_preview.dart';
+part '../../widgets/private/workflows/invoice_cell.dart';
+part 'parts/payment_certificate_page.dart';
+part '../../widgets/private/workflows/detail_line.dart';
+part 'parts/student_report_page.dart';
+part '../../widgets/private/workflows/rank_card.dart';
+part '../../widgets/private/workflows/evaluation_row.dart';
+part 'parts/classes_page.dart';
+part '../../widgets/private/workflows/class_count.dart';
+part 'parts/timetable_page.dart';
+part 'parts/grade_reports_page.dart';
+part '../../widgets/private/workflows/program_card.dart';
+part '../../widgets/private/workflows/report_button.dart';
+part '../../widgets/private/workflows/report_tile.dart';
+part 'parts/comparison_report_page.dart';
+part 'parts/khmer_period_report_page.dart';
+part 'parts/khmer_monthly_report_page.dart';
+part '../../widgets/private/workflows/report_identity.dart';
+part '../../widgets/private/workflows/report_totals.dart';
+part 'parts/monthly_report_page.dart';
+part '../../widgets/private/workflows/report_header.dart';
+part '../../widgets/private/workflows/student_scope.dart';
+part 'parts/student_context.dart';

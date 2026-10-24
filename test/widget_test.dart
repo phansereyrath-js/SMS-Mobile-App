@@ -1,11 +1,14 @@
+import 'package:get/get.dart';
+import 'package:pastel_auth_ui/controllers/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pastel_auth_ui/backend_workflow_host.dart';
-import 'package:pastel_auth_ui/main.dart';
+import 'package:pastel_auth_ui/views/workflows/backend_workflow_host.dart';
+import 'package:pastel_auth_ui/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   setUp(() {
+    Get.reset();
     SharedPreferences.setMockInitialValues({});
     backendWorkflowTestData = {
       'student': {
@@ -288,7 +291,7 @@ void main() {
 
     final preferences = await SharedPreferences.getInstance();
     expect(preferences.getString('app.theme'), 'Emerald');
-    expect(appThemeName.value, 'Emerald');
+    expect(Get.find<ThemeController>().name.value, 'Emerald');
 
     await tester.pumpWidget(
       const PastelAuthApp(
@@ -297,7 +300,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(appThemeName.value, 'Emerald');
+    expect(Get.find<ThemeController>().name.value, 'Emerald');
   });
 
   testWidgets('old Light theme is migrated to ACLEDA Blue', (tester) async {
@@ -305,7 +308,7 @@ void main() {
     await tester.pumpWidget(const PastelAuthApp(initialRoute: '/home'));
     await tester.pumpAndSettle();
 
-    expect(appThemeName.value, 'ACLEDA Blue');
+    expect(Get.find<ThemeController>().name.value, 'ACLEDA Blue');
     final preferences = await SharedPreferences.getInstance();
     expect(preferences.getString('app.theme'), 'ACLEDA Blue');
   });
