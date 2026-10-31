@@ -17,7 +17,7 @@ class _MenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = '${_student['name_english'] ?? _student['name'] ?? 'Student'}';
     return Scaffold(
-      backgroundColor: AppColors.colorFF06254D,
+      backgroundColor: AppColors.primaryDark,
       body: Container(
         decoration: BoxDecoration(gradient: _activeGradient()),
         child: SafeArea(
@@ -216,7 +216,7 @@ class _AppMenuSheetState extends State<_AppMenuSheet> {
       margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.fromLTRB(18, 14, 18, 22),
       decoration: BoxDecoration(
-        color: AppColors.colorFF102D50,
+        color: AppColors.schoolDarkCard,
         borderRadius: BorderRadius.circular(26),
         border: Border.all(color: Colors.white24),
       ),
@@ -272,7 +272,7 @@ class _AppMenuSheetState extends State<_AppMenuSheet> {
                               value: language,
 
                               dense: true,
-                              activeColor: AppColors.colorFF55DFF5,
+                              activeColor: AppColors.schoolDarkAccent,
                               title: Text(
                                 _languageLabel(language),
                                 style: const TextStyle(color: Colors.white),
@@ -537,7 +537,7 @@ class _SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<_SettingsPage> {
   bool _notifications = true;
   bool _faceId = false;
-  String _theme = 'ACLEDA Blue';
+  String _theme = 'Grandview School';
   String _language = 'English';
 
   String _tr(String english) {
@@ -546,7 +546,7 @@ class _SettingsPageState extends State<_SettingsPage> {
         'Settings': 'ការកំណត់',
         'Themes': 'រូបរាង',
         'Choose Theme': 'ជ្រើសរើសរូបរាង',
-        'ACLEDA Blue': 'អេស៊ីលីដាពណ៌ខៀវ',
+        'Grandview School': 'អេស៊ីលីដាពណ៌ខៀវ',
         'Ocean Blue': 'ខៀវសមុទ្រ',
         'Emerald': 'ត្បូងមរកត',
         'Royal Purple': 'ស្វាយរាជវង្ស',
@@ -566,7 +566,7 @@ class _SettingsPageState extends State<_SettingsPage> {
         'Settings': '设置',
         'Themes': '主题',
         'Choose Theme': '选择主题',
-        'ACLEDA Blue': 'ACLEDA 蓝',
+        'Grandview School': '学校棕色',
         'Ocean Blue': '海洋蓝',
         'Emerald': '翡翠绿',
         'Royal Purple': '皇家紫',

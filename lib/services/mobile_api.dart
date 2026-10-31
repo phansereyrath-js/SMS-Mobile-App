@@ -19,8 +19,8 @@ class MobileApi {
   static String get baseUrl => _configuredUrl.isNotEmpty
       ? _configuredUrl
       : kIsWeb
-      ? 'http://127.0.0.1/system_cs/api.php'
-      : 'http://10.0.2.2/system_cs/api.php';
+      ? 'http://10.0.2.2:8010/api.php'
+      : 'http://192.168.0.116:8010/api.php';
 
   Future<String?> savedToken() async =>
       (await SharedPreferences.getInstance()).getString(_tokenKey);

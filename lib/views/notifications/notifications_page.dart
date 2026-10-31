@@ -1,7 +1,8 @@
 part of '../../app.dart';
 
 class BackendNotificationPage extends StatefulWidget {
-  const BackendNotificationPage({super.key});
+  const BackendNotificationPage({super.key, this.initialTab = 'Transactions'});
+  final String initialTab;
 
   @override
   State<BackendNotificationPage> createState() =>
@@ -16,7 +17,7 @@ class _BackendNotificationPageState extends State<BackendNotificationPage> {
   NotificationReadStore get _notificationStore => _controller.store;
   Set<String> get _unreadKeys => _controller.unreadKeys;
   String get _language => _controller.language.value;
-  String _selected = 'Transactions';
+  late String _selected = widget.initialTab;
 
   String _tr(String english) {
     const translations = <String, Map<String, String>>{
@@ -162,7 +163,7 @@ class _BackendNotificationPageState extends State<BackendNotificationPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: AppColors.colorFF06254D,
+    backgroundColor: AppColors.primaryDark,
     body: Container(
       decoration: BoxDecoration(gradient: _activeGradient()),
       child: Center(
@@ -264,7 +265,7 @@ class _BackendNotificationPageState extends State<BackendNotificationPage> {
                   ),
                   if (snapshot.connectionState != ConnectionState.done)
                     const LinearProgressIndicator(
-                      color: AppColors.colorFF55DFF5,
+                      color: AppColors.schoolDarkAccent,
                     ),
                   if (snapshot.hasError)
                     Padding(
@@ -413,7 +414,7 @@ class _BackendNotificationPageState extends State<BackendNotificationPage> {
     child: Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.color99111B2D,
+        color: AppColors.schoolDarkSurface,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.white24),
       ),
@@ -639,10 +640,10 @@ class _SchoolAnnouncementPage extends StatelessWidget {
     );
     final image = _plain(announcement['Image'] ?? announcement['Attachment']);
     return Scaffold(
-      backgroundColor: AppColors.colorFF06254D,
+      backgroundColor: AppColors.primaryDark,
       appBar: AppBar(
         title: const Text('School Announcement'),
-        backgroundColor: AppColors.colorFF073B68,
+        backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
       ),
       body: Container(

@@ -21,7 +21,7 @@ Route<dynamic> _onGenerateRoute(RouteSettings settings) {
   final page = switch (settings.name) {
     _loginRoute => const LoginPage(),
     _registerRoute => const RegisterPage(),
-    _homeRoute => const BankingDashboard(),
+    _homeRoute => const SchoolDashboard(),
     _notificationsRoute => const BackendNotificationPage(),
     _studentRoute => const StudentInformationPage(),
     _walletRoute => const BackendWorkflowHost(workflow: BackendWorkflow.wallet),

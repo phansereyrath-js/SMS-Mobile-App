@@ -83,7 +83,7 @@ void main() {
   testWidgets('refresh route restores the home page', (tester) async {
     await tester.pumpWidget(const PastelAuthApp(initialRoute: '/home'));
     await tester.pumpAndSettle();
-    expect(find.text('Hello, SREY RATH'), findsOneWidget);
+    expect(find.text('Hello, Test Student'), findsOneWidget);
     expect(find.text('Log In'), findsNothing);
   });
 
@@ -303,14 +303,16 @@ void main() {
     expect(Get.find<ThemeController>().name.value, 'Emerald');
   });
 
-  testWidgets('old Light theme is migrated to ACLEDA Blue', (tester) async {
+  testWidgets('old Light theme is migrated to Grandview School', (
+    tester,
+  ) async {
     SharedPreferences.setMockInitialValues({'app.theme': 'Light'});
     await tester.pumpWidget(const PastelAuthApp(initialRoute: '/home'));
     await tester.pumpAndSettle();
 
-    expect(Get.find<ThemeController>().name.value, 'ACLEDA Blue');
+    expect(Get.find<ThemeController>().name.value, 'Grandview School');
     final preferences = await SharedPreferences.getInstance();
-    expect(preferences.getString('app.theme'), 'ACLEDA Blue');
+    expect(preferences.getString('app.theme'), 'Grandview School');
   });
 
   testWidgets('menu detail screens follow Khmer language', (tester) async {
@@ -335,7 +337,7 @@ void main() {
     await tester.pumpWidget(const PastelAuthApp(initialRoute: '/home'));
     await tester.pumpAndSettle();
 
-    expect(find.text('សួស្តី, SREY RATH'), findsOneWidget);
+    expect(find.text('សួស្តី, Test Student'), findsOneWidget);
     expect(find.textContaining('មើលព័ត៌មានសិស្ស'), findsOneWidget);
     expect(find.text('មធ្យមភាគ'), findsOneWidget);
     expect(find.text('ក្រេឌីត'), findsOneWidget);
@@ -361,7 +363,7 @@ void main() {
     expect(find.text('37'), findsOneWidget);
   });
 
-  testWidgets('home replaces quick categories with advertisement carousel', (
+  testWidgets('home highlights school announcements instead of advertising', (
     tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(440, 956));
@@ -370,12 +372,9 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.ensureVisible(
-      find.byKey(const ValueKey('advertisement-carousel')),
+      find.byKey(const ValueKey('school-announcements')),
     );
-    expect(
-      find.byKey(const ValueKey('advertisement-carousel')),
-      findsOneWidget,
-    );
+    expect(find.byKey(const ValueKey('school-announcements')), findsOneWidget);
     expect(find.text('My Points'), findsNothing);
     expect(find.text('CSX'), findsNothing);
   });
@@ -412,7 +411,7 @@ void main() {
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
     const cards = <String, String>{
-      'Cards': 'School Fees',
+      'School Fees': 'School Fees',
       'Scan QR': 'Scan the school attendance QR code',
       'My Grades': 'Grade Reports',
       'Attendance': 'Attendance records by date',

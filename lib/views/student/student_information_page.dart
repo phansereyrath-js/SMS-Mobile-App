@@ -91,7 +91,7 @@ class _StudentInformationPageState extends State<StudentInformationPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: AppColors.colorFF06254D,
+    backgroundColor: AppColors.primaryDark,
     body: Container(
       decoration: BoxDecoration(gradient: _activeGradient()),
       child: Center(

@@ -15,7 +15,7 @@ class _InnerHeader extends StatelessWidget implements PreferredSizeWidget {
       onPressed: () => Navigator.pop(context),
       icon: const Icon(
         Icons.chevron_left_rounded,
-        color: AppColors.colorFF55DFF5,
+        color: AppColors.schoolDarkAccent,
       ),
     ),
     titleSpacing: 0,
@@ -36,7 +36,7 @@ class _InnerHeader extends StatelessWidget implements PreferredSizeWidget {
                 icon: const Icon(Icons.tune_rounded, size: 15),
                 label: Text(workflowText(context, 'Filter')),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.colorFF55DFF5,
+                  foregroundColor: AppColors.schoolDarkAccent,
                   visualDensity: VisualDensity.compact,
                 ),
               ),

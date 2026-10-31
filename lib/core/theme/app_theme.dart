@@ -9,6 +9,9 @@ class AppTheme {
     fontFamily: 'Arial',
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.gradient(themeName).colors[1],
+      primary: AppColors.gradient(themeName).colors[1],
+      secondary: AppColors.schoolGreen,
+      surface: Colors.white,
     ),
     scaffoldBackgroundColor: AppColors.scaffoldBackground,
     inputDecorationTheme: InputDecorationTheme(

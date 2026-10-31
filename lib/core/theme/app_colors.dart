@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 /// Central palette. Change these values to customize existing screens.
 class AppColors {
   AppColors._();
-  static const scaffoldBackground = Color(0xfff3f0f5);
-  static const inputBorder = Color(0xffe9dff5);
-  static const inputFocusBorder = Color(0xffb79bf7);
+  static const scaffoldBackground = Color(0xffFAF8F4);
+  static const schoolGreen = Color(0xff278449);
+  static const schoolGreenTint = Color(0xffEAF4EC);
+  static const schoolBrownTint = Color(0xffF2E9DC);
+  static const schoolInk = Color(0xff30291F);
+  static const schoolMuted = Color(0xff756B5D);
+  static const schoolBorder = Color(0xffE9E2D7);
+  static const schoolDarkSurface = Color(0xff3E2C19);
+  static const schoolDarkAccent = Color(0xffC2DDBB);
+  static const schoolDarkCard = Color(0xff594126);
+  static const inputBorder = Color(0xffE9E2D7);
+  static const inputFocusBorder = Color(0xff755020);
   static const colorFF79747E = Color(0xff79747e);
   static const colorFFE65F52 = Color(0xffe65f52);
   static const colorFF5876D8 = Color(0xff5876d8);
@@ -40,7 +49,7 @@ class AppColors {
   static const colorFFD94C4C = Color(0xffd94c4c);
   static const colorFFD6A928 = Color(0xffd6a928);
   static const colorFFD7D2CE = Color(0xffd7d2ce);
-  static const primaryLight = Color(0xff0b63b6);
+  static const primaryLight = Color(0xff99713D);
   static const colorFFFAF8F6 = Color(0xfffaf8f6);
   static const colorFF3278C8 = Color(0xff3278c8);
   static const color14042F49 = Color(0x14042f49);
@@ -86,12 +95,12 @@ class AppColors {
   static const colorFF2C1C10 = Color(0xff2c1c10);
   static const colorFF3A2818 = Color(0xff3a2818);
   static const colorFF20150D = Color(0xff20150d);
-  static const primaryDark = Color(0xff041f45);
+  static const primaryDark = Color(0xff4B2B0C);
   static const colorFF102F50 = Color(0xff102f50);
   static const colorFF46BFFF = Color(0xff46bfff);
   static const colorFF35F4C2 = Color(0xff35f4c2);
-  static const primary = Color(0xff073f7a);
-  static const primaryAccent = Color(0xff174ea6);
+  static const primary = Color(0xff755020);
+  static const primaryAccent = Color(0xff80602E);
   static const colorFFFFD35C = Color(0xffffd35c);
   static const colorFFDF2F9C = Color(0xffdf2f9c);
   static const colorFF1B78FF = Color(0xff1b78ff);
@@ -106,8 +115,8 @@ class AppColors {
   static const colorFFD4D9DD = Color(0xffd4d9dd);
   static const colorFFE8E1DC = Color(0xffe8e1dc);
   static const colorFFFFFBF6 = Color(0xfffffbf6);
-  static const buttonStart = Color(0xfff3b6cd);
-  static const buttonEnd = Color(0xffa98bf5);
+  static const buttonStart = Color(0xff99713D);
+  static const buttonEnd = Color(0xff755020);
   static const colorFFD7C7F6 = Color(0xffd7c7f6);
   static const color27000000 = Color(0x27000000);
   static const colorFF312739 = Color(0xff312739);
@@ -127,7 +136,7 @@ class AppColors {
     stops: [0, .38, .7, 1],
   );
   static const themeNames = [
-    'ACLEDA Blue',
+    'Grandview School',
     'Ocean Blue',
     'Emerald',
     'Royal Purple',

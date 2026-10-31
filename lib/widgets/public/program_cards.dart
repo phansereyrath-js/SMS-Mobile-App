@@ -20,7 +20,7 @@ class ProgramCard extends StatelessWidget {
     height: 132,
     padding: const EdgeInsets.all(10),
     decoration: BoxDecoration(
-      color: AppColors.color99111B2D,
+      color: AppColors.schoolDarkSurface,
       borderRadius: BorderRadius.circular(17),
       border: Border.all(color: Colors.white38),
       boxShadow: const [
@@ -64,7 +64,7 @@ class LanguageProgramCard extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
     decoration: BoxDecoration(
-      color: AppColors.color99111B2D,
+      color: AppColors.schoolDarkSurface,
       borderRadius: BorderRadius.circular(15),
       border: Border.all(color: Colors.white38),
     ),

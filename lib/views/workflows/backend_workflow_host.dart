@@ -146,7 +146,7 @@ class _BackendWorkflowHostState extends State<BackendWorkflowHost> {
     }
     if (_controller.error.value != null || _controller.data.value == null) {
       return Scaffold(
-        backgroundColor: AppColors.colorFF082F58,
+        backgroundColor: AppColors.primaryDark,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,

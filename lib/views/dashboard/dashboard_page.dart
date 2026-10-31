@@ -1,14 +1,13 @@
 part of '../../app.dart';
 
-class BankingDashboard extends StatefulWidget {
-  const BankingDashboard({super.key});
+class SchoolDashboard extends StatefulWidget {
+  const SchoolDashboard({super.key});
 
   @override
-  State<BankingDashboard> createState() => _BankingDashboardState();
+  State<SchoolDashboard> createState() => _SchoolDashboardState();
 }
 
-class _BankingDashboardState extends State<BankingDashboard> {
-  int _selectedIndex = 0;
+class _SchoolDashboardState extends State<SchoolDashboard> {
   final _controller = DashboardController(
     loadDashboard: () async =>
         backendWorkflowTestData ?? await MobileApi().dashboard(),
@@ -16,34 +15,16 @@ class _BankingDashboardState extends State<BankingDashboard> {
   int get _unreadNotifications => _controller.unreadCount.value;
   String get _language => _controller.language.value;
   Map<String, dynamic> get _dashboardData => _controller.data;
-  final _advertisementController = PageController();
-  Timer? _advertisementTimer;
-  int _advertisementIndex = 0;
-
   @override
   void initState() {
     super.initState();
     _loadLanguage();
     _loadUnreadNotifications();
-    _advertisementTimer = Timer.periodic(const Duration(seconds: 5), (_) {
-      final advertisements = _advertisements;
-      if (!mounted || advertisements.length < 2) return;
-      _advertisementIndex = (_advertisementIndex + 1) % advertisements.length;
-      if (_advertisementController.hasClients) {
-        _advertisementController.animateToPage(
-          _advertisementIndex,
-          duration: const Duration(milliseconds: 450),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
   }
 
   @override
   void dispose() {
     _controller.onDelete();
-    _advertisementTimer?.cancel();
-    _advertisementController.dispose();
     super.dispose();
   }
 
@@ -52,6 +33,26 @@ class _BankingDashboardState extends State<BankingDashboard> {
   String _tr(String english) {
     const values = <String, Map<String, String>>{
       'Khmer': {
+        'Student portal': 'ប្រព័ន្ធសិស្ស',
+        'Your school day, connected.': 'ភ្ជាប់ជាមួយការសិក្សារបស់អ្នក',
+        'Learning hub': 'មជ្ឈមណ្ឌលសិក្សា',
+        'Academic overview': 'ទិដ្ឋភាពទូទៅនៃការសិក្សា',
+        'School services': 'សេវាសាលា',
+        'School Fees': 'ថ្លៃសិក្សា',
+        'School announcements': 'សេចក្ដីជូនដំណឹងសាលា',
+        'View all': 'មើលទាំងអស់',
+        'No announcements yet': 'មិនទាន់មានសេចក្ដីជូនដំណឹង',
+        'Updates from your school will appear here.':
+            'ព័ត៌មានថ្មីៗពីសាលានឹងបង្ហាញនៅទីនេះ។',
+        'Student': 'សិស្ស',
+        'Student profile': 'ព័ត៌មានសិស្ស',
+        'Check in': 'កត់ត្រាវត្តមាន',
+        'View your timetable': 'មើលកាលវិភាគរបស់អ្នក',
+        'Plan your next lesson': 'រៀបចំមេរៀនបន្ទាប់',
+        'School life': 'ជីវិតក្នុងសាលា',
+        'Explore classroom activities': 'ស្វែងយល់ពីសកម្មភាពថ្នាក់',
+        'Credits': 'ក្រេឌីត',
+        'Grandview School': 'សាលាហ្គ្រែនវីយូ',
         'Payments': 'ការទូទាត់',
         'Homework': 'កិច្ចការផ្ទះ',
         'Cards': 'កាត',
@@ -77,6 +78,25 @@ class _BankingDashboardState extends State<BankingDashboard> {
         'GRANDVIEW SCHOOL': 'សាលាហ្គ្រែនវីយូ',
       },
       'Chinese': {
+        'Student portal': '学生门户',
+        'Your school day, connected.': '连接你的校园生活',
+        'Learning hub': '学习中心',
+        'Academic overview': '学业概览',
+        'School services': '学校服务',
+        'School Fees': '学费',
+        'School announcements': '学校公告',
+        'View all': '查看全部',
+        'No announcements yet': '暂无公告',
+        'Updates from your school will appear here.': '学校最新消息将在这里显示。',
+        'Student': '学生',
+        'Student profile': '学生资料',
+        'Check in': '签到',
+        'View your timetable': '查看课程表',
+        'Plan your next lesson': '安排下一堂课',
+        'School life': '校园生活',
+        'Explore classroom activities': '探索课堂活动',
+        'Credits': '学分',
+        'Grandview School': 'GRANDVIEW 学校',
         'Payments': '付款',
         'Homework': '家庭作业',
         'Cards': '卡片',
@@ -165,126 +185,184 @@ class _BankingDashboardState extends State<BankingDashboard> {
       ),
     );
     if (mounted) {
-      setState(() => _selectedIndex = 0);
       await _loadLanguage();
       await _loadUnreadNotifications();
     }
   }
 
-  static const _mainServices = <({String label, IconData icon})>[
-    (label: 'Cards', icon: Icons.wallet_outlined),
-    (label: 'Scan QR', icon: Icons.qr_code_scanner),
-    (label: 'My Grades', icon: Icons.workspace_premium_outlined),
-    (label: 'Attendance', icon: Icons.calendar_month_outlined),
-    (label: 'Timetable', icon: Icons.alarm_outlined),
-    (label: 'Progress', icon: Icons.trending_up_rounded),
+  static const _learningTools = <({String label, IconData icon, String route})>[
+    (label: 'Homework', icon: Icons.menu_book_rounded, route: _homeworkRoute),
+    (
+      label: 'Timetable',
+      icon: Icons.calendar_month_rounded,
+      route: _timetableRoute,
+    ),
+    (
+      label: 'Attendance',
+      icon: Icons.fact_check_outlined,
+      route: _attendanceRoute,
+    ),
+    (label: 'My Grades', icon: Icons.school_outlined, route: _gradesRoute),
+    (label: 'Progress', icon: Icons.insights_rounded, route: _progressRoute),
+    (label: 'Scan QR', icon: Icons.qr_code_scanner_rounded, route: _scanRoute),
   ];
 
-  void _selectService(String name) {
-    final route = switch (name) {
-      'Cards' || 'My Wallet' => _walletRoute,
-      'Scan QR' => _scanRoute,
-      'Homework' => _homeworkRoute,
-      'Payments' => _paymentsRoute,
-      'Attendance' => _attendanceRoute,
-      'My Grades' => _gradesRoute,
-      'Timetable' => _timetableRoute,
-      'Progress' => _progressRoute,
-      'Gallery' || 'Class Activity' => _galleryRoute,
-      'My Classes' => _classesRoute,
-      _ => null,
-    };
-    if (route != null) {
-      Navigator.pushNamed(context, route);
-      return;
+  Map get _student => _dashboardData['student'] as Map? ?? const {};
+  String get _studentName {
+    for (final key in ['name_english', 'name', 'name_khmer']) {
+      final name = '${_student[key] ?? ''}'.trim();
+      if (name.isNotEmpty) return name;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$name selected'),
-        behavior: SnackBarBehavior.floating,
+    return _tr('Student');
+  }
+
+  List<Map> get _announcements {
+    final records = _dashboardData['records'] as Map? ?? const {};
+    final rows = (records['setting-announcement'] as List? ?? const [])
+        .whereType<Map>()
+        .toList();
+    rows.sort(
+      (a, b) => '${b['updated_at'] ?? b['UpdatedAt'] ?? ''}'.compareTo(
+        '${a['updated_at'] ?? a['UpdatedAt'] ?? ''}',
       ),
     );
+    return rows.take(2).toList();
   }
+
+  String _plain(Object? value) => '${value ?? ''}'
+      .replaceAll(RegExp(r'<[^>]*>'), ' ')
+      .replaceAll('&nbsp;', ' ')
+      .replaceAll('&amp;', '&')
+      .trim();
 
   @override
   Widget build(BuildContext context) => Obx(() {
-    _controller.data.length;
-    _controller.unreadCount.value;
-    _controller.language.value;
+    final studentName = _studentName;
+    final unread = _unreadNotifications;
+    final announcements = _announcements;
     return Scaffold(
-      backgroundColor: AppColors.colorFF082F58,
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 430),
-          child: Stack(
-            children: [
-              const Positioned.fill(child: _DashboardBackdrop()),
-              SafeArea(
-                bottom: false,
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(18, 14, 18, 112),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate([
-                          _topBar(),
-                          const SizedBox(height: 24),
-                          _profileCard(),
-                          const SizedBox(height: 22),
-                          _balanceCard(),
-                          const SizedBox(height: 16),
-                          _wideActions(),
-                          const SizedBox(height: 14),
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: _mainServices.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                  childAspectRatio: .88,
-                                ),
-                            itemBuilder: (context, index) {
-                              final item = _mainServices[index];
-                              return _ServiceTile(
-                                label: _tr(item.label),
-                                icon: item.icon,
-                                onTap: () => _selectService(item.label),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 18),
-                          _quickPanel(),
-                        ]),
+      backgroundColor: AppColors.scaffoldBackground,
+      body: SafeArea(
+        bottom: false,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: RefreshIndicator(
+              onRefresh: _controller.reload,
+              color: AppColors.primary,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _schoolHeader(unread),
+                    const SizedBox(height: 24),
+                    Text(
+                      '${_tr('Hello')}, $studentName',
+                      style: const TextStyle(
+                        fontSize: 25,
+                        height: 1.2,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.schoolInk,
                       ),
                     ),
+                    const SizedBox(height: 6),
+                    Text(
+                      _tr('Your school day, connected.'),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.schoolMuted,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _studentCard(studentName),
+                    const SizedBox(height: 24),
+                    _sectionTitle('Learning hub'),
+                    const SizedBox(height: 12),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final largeText =
+                            MediaQuery.textScalerOf(context).scale(14) > 19;
+                        final columns = largeText || constraints.maxWidth < 310
+                            ? 2
+                            : 3;
+                        return GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: columns,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: largeText ? .85 : 1.02,
+                          children: _learningTools
+                              .map(
+                                (tool) => _learningTile(
+                                  tool.label,
+                                  tool.icon,
+                                  () =>
+                                      Navigator.pushNamed(context, tool.route),
+                                ),
+                              )
+                              .toList(),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    _sectionTitle('Academic overview'),
+                    const SizedBox(height: 12),
+                    _academicSummary(),
+                    const SizedBox(height: 24),
+                    _sectionTitle('School services'),
+                    const SizedBox(height: 12),
+                    _schoolServices(),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(child: _sectionTitle('School announcements')),
+                        TextButton(
+                          onPressed: _openSchoolAnnouncements,
+                          child: Text(_tr('View all')),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    _announcementList(announcements),
+                    const SizedBox(height: 18),
+                    _schoolLife(),
                   ],
                 ),
               ),
-              Positioned(
-                left: 18,
-                right: 18,
-                bottom: 14,
-                child: SafeArea(top: false, child: _bottomNavigation()),
-              ),
-            ],
+            ),
           ),
         ),
       ),
+      bottomNavigationBar: _bottomNavigation(),
     );
   });
 
-  Widget _topBar() => Row(
+  Widget _sectionTitle(String text) => Text(
+    _tr(text),
+    style: const TextStyle(
+      fontSize: 17,
+      fontWeight: FontWeight.w800,
+      color: AppColors.schoolInk,
+    ),
+  );
+
+  Widget _schoolHeader(int unread) => Row(
     children: [
-      ClipRRect(
-        borderRadius: BorderRadius.circular(9),
+      Container(
+        width: 52,
+        height: 58,
+        padding: const EdgeInsets.all(3),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Image.asset(
           'assets/logo.jpg',
-          width: 42,
-          height: 42,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
+          semanticLabel: 'Grandview School logo',
         ),
       ),
       const SizedBox(width: 10),
@@ -295,338 +373,452 @@ class _BankingDashboardState extends State<BankingDashboard> {
             Text(
               _tr('GRANDVIEW'),
               style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+                fontSize: 17,
+                letterSpacing: 1.2,
                 fontWeight: FontWeight.w900,
+                color: AppColors.primaryDark,
               ),
             ),
-            const Text(
-              'MOBILE SCHOOL',
-              style: TextStyle(
-                color: AppColors.colorFFFFCF45,
-                fontSize: 9,
-                letterSpacing: 1.8,
+            const SizedBox(height: 3),
+            Text(
+              _tr('Student portal'),
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.schoolMuted,
               ),
             ),
           ],
         ),
       ),
-      Stack(
-        clipBehavior: Clip.none,
-        children: [
-          IconButton(
-            onPressed: _openNotifications,
-            icon: const Icon(
-              Icons.notifications_none_rounded,
-              color: Colors.white,
-              size: 29,
-            ),
+      Badge(
+        isLabelVisible: unread > 0,
+        label: Text(
+          unread > 99 ? '99+' : '$unread',
+          key: unread > 0 ? const ValueKey('notification-unread-count') : null,
+        ),
+        backgroundColor: AppColors.schoolGreen,
+        child: IconButton.filledTonal(
+          tooltip: _tr('School announcements'),
+          onPressed: _openNotifications,
+          style: IconButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: AppColors.primary,
           ),
-          if (_unreadNotifications > 0)
-            Positioned(
-              right: 1,
-              top: 1,
-              child: Container(
-                key: const ValueKey('notification-unread-count'),
-                constraints: const BoxConstraints(minWidth: 19, minHeight: 19),
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: AppColors.colorFFF36A8D,
-                  borderRadius: BorderRadius.circular(999),
-                  boxShadow: [
-                    BoxShadow(color: AppColors.color33FFFFFF, blurRadius: 6),
-                  ],
-                ),
-                child: Text(
-                  _unreadNotifications > 99 ? '99+' : '$_unreadNotifications',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-            ),
-        ],
+          icon: const Icon(Icons.notifications_none_rounded),
+        ),
       ),
     ],
   );
 
-  Widget _profileCard() => _GlassPanel(
-    padding: const EdgeInsets.all(13),
-    child: InkWell(
-      onTap: () => Navigator.pushNamed(context, _studentRoute),
-      borderRadius: BorderRadius.circular(16),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 27,
-            backgroundImage: AssetImage('assets/student_profile.png'),
-          ),
-          const SizedBox(width: 13),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${_tr('Hello')}, SREY RATH',
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  '${_tr('View student profile')}  ›',
-                  style: const TextStyle(color: Colors.white60, fontSize: 14),
-                ),
-              ],
-            ),
-          ),
-          const Icon(Icons.chevron_right, color: Colors.white54),
-        ],
-      ),
-    ),
-  );
-
-  double get _gpaProgress {
-    final raw = num.tryParse(
-      '${_academicValue(['gpa', 'GPA', 'average_score']) ?? 75.82}',
-    );
-    if (raw == null) return .7582;
-    return (raw > 4 ? raw / 100 : raw / 4).clamp(0, 1).toDouble();
-  }
-
-  Widget _balanceCard() => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+  Widget _studentCard(String name) => Container(
+    key: const ValueKey('school-student-card'),
     decoration: BoxDecoration(
-      color: AppColors.color90111B2D,
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: Colors.white38),
-      boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 12)],
+      color: AppColors.primary,
+      borderRadius: BorderRadius.circular(22),
     ),
-    child: Row(
+    padding: const EdgeInsets.all(20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 86,
-          height: 86,
-          child: CustomPaint(
-            painter: _ProgressRingPainter(progress: _gpaProgress),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: .14),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(
+                Icons.school_rounded,
+                color: Colors.white,
+                size: 28,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    [_student['class'], _student['program']]
+                        .where((v) => v != null && '$v'.trim().isNotEmpty)
+                        .join(' · '),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        const Divider(color: Colors.white24, height: 1),
+        const SizedBox(height: 8),
+        InkWell(
+          onTap: () => Navigator.pushNamed(context, _studentRoute),
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
               children: [
-                Text(
-                  _academicText(['gpa', 'GPA', 'average_score'], '75.82'),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
+                Expanded(
+                  child: Text(
+                    _tr('View student profile'),
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
                   ),
                 ),
-                Text(
-                  _tr('GPA'),
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w700,
-                  ),
+                const Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 18,
+                  color: Colors.white,
                 ),
               ],
             ),
-          ),
-        ),
-        const SizedBox(width: 18),
-        Expanded(
-          child: _AcademicMetric(
-            label: _tr('ECTs'),
-            value: _academicText(['ects', 'ECTs', 'credits'], '165'),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _AcademicMetric(
-            label: _tr('Passed Courses'),
-            value: _academicText([
-              'passed_courses',
-              'passedCourses',
-              'courses_passed',
-            ], '34'),
           ),
         ),
       ],
     ),
   );
 
-  Widget _wideActions() => Row(
-    children: [
-      Expanded(
-        child: _ServiceTile(
-          label: _tr('Payments'),
-          icon: Icons.receipt_long_outlined,
-          horizontal: true,
-          onTap: () => _selectService('Payments'),
+  Widget _learningTile(String label, IconData icon, VoidCallback onTap) =>
+      Material(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: AppColors.schoolBorder),
         ),
-      ),
-      const SizedBox(width: 12),
-      Expanded(
-        child: _HomeworkTile(
-          label: _tr('Homework'),
-          onTap: () => _selectService('Homework'),
-        ),
-      ),
-    ],
-  );
-
-  List<String> get _advertisements {
-    final records = _dashboardData['records'] as Map? ?? const {};
-    final rows = records['setting-content'] as List? ?? const [];
-    final images = rows
-        .whereType<Map>()
-        .map((row) {
-          for (final key in const [
-            'Image',
-            'image',
-            'Attachment',
-            'attachment',
-            'Banner',
-            'banner',
-          ]) {
-            final value = '${row[key] ?? ''}'.trim();
-            if (value.isNotEmpty) return value;
-          }
-          return '';
-        })
-        .where((image) => image.isNotEmpty)
-        .toList();
-    return images.isEmpty
-        ? const [
-            'assets/cambridge_program.png',
-            'assets/khmer_education_program.png',
-            'assets/school_icon.png',
-          ]
-        : images;
-  }
-
-  Widget _advertisementImage(String source) {
-    if (source.startsWith('data:image') && source.contains(',')) {
-      try {
-        return Image.memory(
-          base64Decode(source.substring(source.indexOf(',') + 1)),
-          fit: BoxFit.cover,
-        );
-      } catch (_) {}
-    }
-    if (source.startsWith('http://') || source.startsWith('https://')) {
-      return Image.network(source, fit: BoxFit.cover);
-    }
-    return Image.asset(source, fit: BoxFit.cover);
-  }
-
-  Widget _quickPanel() {
-    final advertisements = _advertisements;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        key: const ValueKey('advertisement-carousel'),
-        height: 145,
-        decoration: BoxDecoration(
-          color: AppColors.color90111B2D,
-          border: Border.all(color: Colors.white38),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Stack(
-          children: [
-            PageView.builder(
-              controller: _advertisementController,
-              itemCount: advertisements.length,
-              onPageChanged: (index) =>
-                  setState(() => _advertisementIndex = index),
-              itemBuilder: (_, index) => SizedBox.expand(
-                child: _advertisementImage(advertisements[index]),
-              ),
-            ),
-            if (advertisements.length > 1)
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    advertisements.length,
-                    (index) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 220),
-                      width: index == _advertisementIndex ? 18 : 7,
-                      height: 7,
-                      margin: const EdgeInsets.symmetric(horizontal: 3),
-                      decoration: BoxDecoration(
-                        color: index == _advertisementIndex
-                            ? AppColors.colorFF55DFF5
-                            : Colors.white70,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppColors.schoolGreenTint,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(icon, size: 25, color: AppColors.schoolGreen),
+                ),
+                const SizedBox(height: 9),
+                Text(
+                  _tr(label),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.schoolInk,
                   ),
                 ),
-              ),
-          ],
+              ],
+            ),
+          ),
         ),
+      );
+
+  Widget _academicSummary() => Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: AppColors.schoolBorder),
+      borderRadius: BorderRadius.circular(16),
+    ),
+    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _metric('GPA', _academicText(['gpa', 'GPA', 'average_score'], '—')),
+        _metric('Credits', _academicText(['ects', 'ECTs', 'credits'], '—')),
+        _metric(
+          'Passed Courses',
+          _academicText([
+            'passed_courses',
+            'passedCourses',
+            'courses_passed',
+          ], '—'),
+        ),
+      ],
+    ),
+  );
+
+  Widget _metric(String label, String value) => Expanded(
+    child: Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primary,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          _tr(label),
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 11, color: AppColors.schoolMuted),
+        ),
+      ],
+    ),
+  );
+
+  Widget _schoolServices() => Material(
+    color: Colors.white,
+    clipBehavior: Clip.antiAlias,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: const BorderSide(color: AppColors.schoolBorder),
+    ),
+    child: Column(
+      children: [
+        ListTile(
+          leading: const Icon(
+            Icons.receipt_long_outlined,
+            color: AppColors.primary,
+          ),
+          title: Text(_tr('School Fees')),
+          trailing: const Icon(Icons.chevron_right, size: 20),
+          onTap: () => Navigator.pushNamed(context, _walletRoute),
+        ),
+        const Divider(height: 1, indent: 56, color: AppColors.schoolBorder),
+        ListTile(
+          leading: const Icon(
+            Icons.history_edu_outlined,
+            color: AppColors.primary,
+          ),
+          title: Text(_tr('Payments')),
+          trailing: const Icon(Icons.chevron_right, size: 20),
+          onTap: () => Navigator.pushNamed(context, _paymentsRoute),
+        ),
+      ],
+    ),
+  );
+
+  Future<void> _openSchoolAnnouncements() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (_) => const BackendNotificationPage(initialTab: 'School'),
       ),
     );
+    await _loadUnreadNotifications();
   }
 
-  Widget _bottomNavigation() {
-    const items = <({String label, IconData icon})>[
-      (label: 'Home', icon: Icons.home_rounded),
-      (label: 'Class Activity', icon: Icons.photo_library_outlined),
-      (label: 'My Classes', icon: Icons.co_present_outlined),
-      (label: 'Menu', icon: Icons.menu_rounded),
-    ];
-    return Container(
-      height: 80,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        color: AppColors.colorE6151722,
-        borderRadius: BorderRadius.circular(38),
-        boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 18)],
-      ),
-      child: Row(
-        children: List.generate(items.length, (index) {
-          final item = items[index], active = index == _selectedIndex;
-          return Expanded(
-            child: InkWell(
-              onTap: () {
-                if (item.label == 'Class Activity') {
-                  Navigator.pushNamed(context, _galleryRoute);
-                } else if (item.label == 'My Classes') {
-                  Navigator.pushNamed(context, _classesRoute);
-                } else if (item.label == 'Menu') {
-                  setState(() => _selectedIndex = index);
-                  _openMenu();
-                } else {
-                  setState(() => _selectedIndex = index);
-                }
-              },
-              borderRadius: BorderRadius.circular(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    item.icon,
-                    color: active ? AppColors.colorFFFFCF45 : Colors.white,
-                    size: 27,
+  Widget _announcementList(List<Map> rows) => Material(
+    key: const ValueKey('school-announcements'),
+    color: Colors.white,
+    clipBehavior: Clip.antiAlias,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      side: const BorderSide(color: AppColors.schoolBorder),
+    ),
+    child: rows.isEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(18),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.campaign_outlined,
+                  color: AppColors.schoolGreen,
+                  size: 28,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _tr('No announcements yet'),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.schoolInk,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        _tr('Updates from your school will appear here.'),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          height: 1.4,
+                          color: AppColors.schoolMuted,
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+              ],
+            ),
+          )
+        : Column(
+            children: rows
+                .map(
+                  (row) => ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 5,
+                    ),
+                    leading: const Icon(
+                      Icons.campaign_outlined,
+                      color: AppColors.schoolGreen,
+                    ),
+                    title: Text(
+                      _plain(row['Title'] ?? row['title']),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: AppColors.schoolInk,
+                      ),
+                    ),
+                    subtitle: Text(
+                      _plain(row['Description'] ?? row['description']),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.schoolMuted,
+                      ),
+                    ),
+                    onTap: _openSchoolAnnouncements,
+                    trailing: const Icon(Icons.chevron_right, size: 18),
+                  ),
+                )
+                .toList(),
+          ),
+  );
+
+  Widget _schoolLife() => Material(
+    color: AppColors.schoolGreenTint,
+    borderRadius: BorderRadius.circular(16),
+    child: InkWell(
+      onTap: () => Navigator.pushNamed(context, _galleryRoute),
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.diversity_3_outlined,
+              color: AppColors.schoolGreen,
+              size: 32,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    _tr(item.label),
-                    style: TextStyle(
-                      color: active ? AppColors.colorFFFFCF45 : Colors.white,
-                      fontSize: 11,
+                    _tr('School life'),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.schoolGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    _tr('Explore classroom activities'),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.schoolMuted,
                     ),
                   ),
                 ],
               ),
             ),
-          );
-        }),
+            const Icon(
+              Icons.arrow_forward_rounded,
+              color: AppColors.schoolGreen,
+              size: 20,
+            ),
+          ],
+        ),
       ),
-    );
-  }
+    ),
+  );
+
+  Widget _bottomNavigation() => SafeArea(
+    top: false,
+    child: Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: AppColors.schoolBorder)),
+      ),
+      child: Center(
+        heightFactor: 1,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Row(
+            children: [
+              _navItem('Home', Icons.home_rounded, () {}, selected: true),
+              _navItem(
+                'My Classes',
+                Icons.groups_outlined,
+                () => Navigator.pushNamed(context, _classesRoute),
+              ),
+              _navItem(
+                'Class Activity',
+                Icons.photo_library_outlined,
+                () => Navigator.pushNamed(context, _galleryRoute),
+              ),
+              _navItem('Menu', Icons.menu_rounded, _openMenu),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+
+  Widget _navItem(
+    String label,
+    IconData icon,
+    VoidCallback onTap, {
+    bool selected = false,
+  }) => Expanded(
+    child: Semantics(
+      selected: selected,
+      button: true,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 3),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                color: selected ? AppColors.primary : AppColors.schoolMuted,
+                size: 24,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                _tr(label),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
+                  color: selected ? AppColors.primary : AppColors.schoolMuted,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
